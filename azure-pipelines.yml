@@ -1,0 +1,35 @@
+trigger: none
+
+pool:
+  name: 'Default'
+  demands:
+  - docker
+
+variables:
+  ImageName: build-agent-base
+
+steps:
+- powershell: |
+    docker -H tcp://127.0.0.1:2375 build -f 'Azure Build Agents/vs15_enterprise.dockerfile' -t '$(ImageName):$(Build.SourceVersion)' -m 4G 'Azure Build Agents/'
+    $container = docker start $(ImageName):$(Build.SourceVersion) -m 2G
+    $env:VisualStudio_Version = docker exec $container powershell -c '$env:VisualStudio_Version'
+    docker stop $container
+  displayName: 'Retrieve VS version from image'
+
+- task: Docker@1
+  displayName: 'Tag image with VS version'
+  inputs:
+    containerregistrytype: 'Container Registry'
+    dockerRegistryEndpoint: nventive
+    command: 'Tag image'
+    arguments: '$(ImageName):$(VisualStudio_Version)'
+    imageName: '$(ImageName):$(Build.SourceVersion)'
+
+- task: Docker@1
+  displayName: 'Push image'
+  enabled: false
+  inputs:
+    containerregistrytype: 'Container Registry'
+    dockerRegistryEndpoint: nventive
+    command: 'Push an image'
+    imageName: '$(ImageName):$(VisualStudio_Version)'
