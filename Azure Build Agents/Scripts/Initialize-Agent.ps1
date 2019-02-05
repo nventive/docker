@@ -44,5 +44,5 @@ if($User) {
 }
 
 if($env:AGENT_TOKEN) {
-    Remove-Item env:AGENT_TOKEN
+    [Environment]::SetEnvironmentVariable("AGENT_TOKEN",$null, $BuildAgentUser)
 }
