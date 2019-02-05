@@ -46,5 +46,7 @@ WORKDIR C:\
 
 RUN powershell -Command "Remove-Item -Recurse -Force C:\TEMP"
 
-# Default to PowerShell if no other command specified.
-CMD ["powershell.exe", "-NoLogo", "-ExecutionPolicy", "Bypass"]
+COPY Scripts\Initialize-Agent.ps1 C:\agent\Initialize-Agent.ps1
+
+#Start the agent initialization script
+ENTRYPOINT powershell.exe -NoLogo -ExecutionPolicy Bypass -File C:\Temp\Initialize-Agent.ps1 & powershell&
