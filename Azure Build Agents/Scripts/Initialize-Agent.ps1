@@ -40,7 +40,7 @@ if($User) {
     NET USER $AgentUser $Password /ADD /Y >$null 2>&1
     NET LOCALGROUP Administrators $AgentUser /ADD >$null 2>&1
 
-    cmd /c "C:\agent\config.cmd --unattended --url $AccountUrl --auth pat --token $AgentToken --pool $AgentPool --agent $AgentName --replace --runAsService --windowsLogonAccount $BuildAgentUser --windowsLogonPassword $Password --acceptTeeEula --noRestart"
+    C:\agent\config.cmd --unattended --url $AccountUrl --auth pat --token $AgentToken --pool $AgentPool --agent $AgentName --replace --runAsService --windowsLogonAccount $AgentUser --windowsLogonPassword $Password --acceptTeeEula --noRestart
 }
 
 $Provider="VstsAgentService"
