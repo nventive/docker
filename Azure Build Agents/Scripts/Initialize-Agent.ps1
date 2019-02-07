@@ -43,6 +43,24 @@ if($User) {
     cmd /c "C:\agent\config.cmd --unattended --url $AccountUrl --auth pat --token $AgentToken --pool $AgentPool --agent $AgentName --replace --runAsService --windowsLogonAccount $BuildAgentUser --windowsLogonPassword $Password --acceptTeeEula --noRestart"
 }
 
-if($env:AGENT_TOKEN) {
-    [Environment]::SetEnvironmentVariable("AGENT_TOKEN",$null, $BuildAgentUser)
+$Provider="VstsAgentService"
+
+$event=Get-WinEvent -Provider $Provider -MaxEvents 1
+
+Write-Output $event
+
+$lastEventId=$event.RecordId
+
+while($true) {
+    $event=Get-WinEvent -Provider $Provider -MaxEvents 1
+
+    if($event.RecordId -eq $lastEventId) {
+        Start-Sleep -Seconds 1
+    }
+    else {
+        (Write-Output $event | Format-Table -HideTableHeaders | Out-String).Trim().Trim("ProviderName: $Provider").Trim()
+        $lastEventId=$event.RecordId
+    }
 }
+
+

@@ -49,4 +49,4 @@ RUN powershell -Command "Remove-Item -Recurse -Force C:\TEMP"
 COPY Scripts\Initialize-Agent.ps1 C:\agent\Initialize-Agent.ps1
 
 #Start the agent initialization script
-ENTRYPOINT powershell.exe -NoLogo -ExecutionPolicy Bypass -File C:\Temp\Initialize-Agent.ps1 & powershell&
+ENTRYPOINT powershell -NoLogo -ExecutionPolicy Bypass -File C:\agent\Initialize-Agent.ps1 & powershell&
