@@ -3,7 +3,6 @@
 #mandatory parameters
 $AccountUrl=$env:ACCOUNT_URL
 $AgentToken=$env:AGENT_TOKEN
-$AgentName=$env:AGENT_NAME
 
 if(!$AccountUrl) {
     throw "ACCOUNT_URL must be set"
@@ -13,13 +12,10 @@ if(!$AgentToken) {
     throw "AGENT_TOKEN must be set"
 }
 
-if(!$AgentToken) {
-    throw "AGENT_NAME must be set"
-}
-
 #optional parameters
 $AgentPool=$env:AGENT_POOL
 $AgentUser=$env:AGENT_USER
+$AgentName=$env:AGENT_NAME
 
 if(!$AgentPool) {
     $AgentPool="Default"
@@ -27,6 +23,10 @@ if(!$AgentPool) {
 
 if(!$AgentUser) {
     $AgentUser="build_agent"
+}
+
+if(!$AgentName) {
+    $AgentName=$env:COMPUTERNAME
 }
 
 $User=Get-WmiObject -Class Win32_UserAccount -Filter "LocalAccount='True' and Name='$AgentUser'"
