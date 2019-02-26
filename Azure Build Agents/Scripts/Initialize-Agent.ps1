@@ -43,24 +43,6 @@ if($User) {
     C:\agent\config.cmd --unattended --url $AccountUrl --auth pat --token $AgentToken --pool $AgentPool --agent $AgentName --replace --runAsService --windowsLogonAccount $AgentUser --windowsLogonPassword $Password --acceptTeeEula --noRestart
 }
 
-$Provider="VstsAgentService"
-
-$event=Get-WinEvent -Provider $Provider -MaxEvents 1
-
-Write-Output $event
-
-$lastEventId=$event.RecordId
-
-while($true) {
-    $event=Get-WinEvent -Provider $Provider -MaxEvents 1
-
-    if($event.RecordId -eq $lastEventId) {
-        Start-Sleep -Seconds 1
-    }
-    else {
-        (Write-Output $event | Format-Table -HideTableHeaders | Out-String).Trim().Trim("ProviderName: $Provider").Trim()
-        $lastEventId=$event.RecordId
-    }
+While($true){
+    Start-Sleep -Seconds 3600
 }
-
-
