@@ -89,11 +89,6 @@ $catalog = $catalogContent | ConvertFrom-Json
 $version = $catalog.info.id
 Write-Host "Visual Studio version" $version "installed"
 
-# Updating content of MachineState.json file to disable autoupdate of VSIX extensions
-$newContent = '{"Extensions":[{"Key":"1e906ff5-9da8-4091-a299-5c253c55fdc9","Value":{"ShouldAutoUpdate":false}},{"Key":"Microsoft.VisualStudio.Web.AzureFunctions","Value":{"ShouldAutoUpdate":false}}],"ShouldAutoUpdate":false,"ShouldCheckForUpdates":false}'
-Set-Content -Path "$InstallationPath\Common7\IDE\Extensions\MachineState.json" -Value $newContent
-
-
 # Adding description of the software to Markdown
 
 $SoftwareName = "Visual Studio 2017 Enterprise"

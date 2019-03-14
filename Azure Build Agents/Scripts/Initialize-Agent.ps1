@@ -43,6 +43,6 @@ if($User) {
     C:\agent\config.cmd --unattended --url $AccountUrl --auth pat --token $AgentToken --pool $AgentPool --agent $AgentName --replace --runAsService --windowsLogonAccount $AgentUser --windowsLogonPassword $Password --acceptTeeEula --noRestart
 }
 
-While($true){
-    Start-Sleep -Seconds 3600
+while($true) {
+ Start-Sleep -s 100000
 }

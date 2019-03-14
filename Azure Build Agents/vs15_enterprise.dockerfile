@@ -2,8 +2,8 @@
 
 # Made thanks to the instructions found here https://docs.microsoft.com/en-us/visualstudio/install/build-tools-container?view=vs-2017
 
-# Use the latest Windows Server Core 1803 image.
-FROM microsoft/windowsservercore:1803
+# Use the latest Windows Server Core 1809 image.
+FROM mcr.microsoft.com/windows/servercore:1809
 
 # Restore the default Windows shell for correct batch processing below.
 SHELL ["cmd", "/S", "/C"]
@@ -30,4 +30,4 @@ RUN powershell -Command "Remove-Item -Recurse -Force C:\TEMP"
 COPY Scripts\Initialize-Agent.ps1 C:\agent\Initialize-Agent.ps1
 
 #Start the agent initialization script
-ENTRYPOINT powershell -NoLogo -ExecutionPolicy Bypass -File C:\agent\Initialize-Agent.ps1 & powershell&
+ENTRYPOINT powershell -NoLogo -ExecutionPolicy Bypass -File C:\agent\Initialize-Agent.ps1
