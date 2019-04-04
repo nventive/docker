@@ -62,8 +62,8 @@ $WorkLoads = ' --includeOptional ' + `
              ' --add Microsoft.VisualStudio.Workload.Node ' + `
              ' --add Microsoft.VisualStudio.Workload.NetCoreTools ' + `
              ' --add Microsoft.VisualStudio.Workload.Azure ' + `
-             ' --add Component.Android.NDK.R15C ' + `
-             ' --add Component.Android.SDK23 ' + `
+             ' --add Component.Android.NDK.R16B ' + `
+             ' --add Component.Android.SDK27 ' + `
              ' --remove Microsoft.VisualStudio.Component.Windows10SDK.14393 ' + `
              ' --remove Microsoft.VisualStudio.Component.Windows10SDK.10586 ' + `
              ' --remove Microsoft.VisualStudio.Component.Windows10SDK.10240 '
