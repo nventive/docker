@@ -39,6 +39,8 @@ Invoke-WebRequest -UseBasicParsing -Uri "https://dl.google.com/android/repositor
 # Don't replace the one that VS installs as it seems to break things.
 Expand-Archive -Path android-sdk-tools.zip -DestinationPath android-sdk -Force
 
+Remove-Item -Path android-sdk-tools.zip
+
 $sdk = Get-Item -Path .\android-sdk
 
 # Accept the standard licenses.  There does not appear to be an easy way to do this
@@ -47,7 +49,7 @@ $base64Content = "UEsDBBQAAAAAAKJeN06amkPzKgAAACoAAAAhAAAAbGljZW5zZXMvYW5kcm9pZC
 $content = [System.Convert]::FromBase64String($base64Content)
 Set-Content -Path .\android-sdk-licenses.zip -Value $content -Encoding Byte
 Expand-Archive -Path .\android-sdk-licenses.zip -DestinationPath 'C:\Android\android-sdk\' -Force
-
+Remove-Item -Path .\android-sdk-licenses.zip
 
 # run the updates.
 # keep newer versions in descending order
