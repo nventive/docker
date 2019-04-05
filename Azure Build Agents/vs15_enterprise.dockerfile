@@ -10,6 +10,7 @@ COPY [ "ImageHelpers", "C:/Program Files/WindowsPowerShell/Modules/ImageHelpers/
 COPY Scripts\ C:\TEMP\
 
 RUN powershell -Command "C:\TEMP\Initialize-VM.ps1"
+RUN powershell -Command "C:\TEMP\Install-NodeLts.ps1"
 RUN powershell -Command "C:\TEMP\Install-Git.ps1"
 RUN powershell -Command "C:\TEMP\Install-VS2017.ps1"
 
