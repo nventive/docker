@@ -2,7 +2,7 @@
 ##  File:  Initialize-VM.ps1
 ##  Team:  CI-Platform
 ##  Desc:  VM initialization script, machine level configuration
-##  From: https://raw.githubusercontent.com/Microsoft/azure-pipelines-image-generation/78f04621f554cdfb04da748b69809230420a5ace/images/win/scripts/Installers/Vs2017/Initialize-VM.ps1
+##  From:  https://raw.githubusercontent.com/Microsoft/azure-pipelines-image-generation/master/images/win/scripts/Installers/Vs2019/Initialize-VM.ps1
 ################################################################################
 
 function Disable-InternetExplorerESC {
@@ -48,11 +48,11 @@ else {
     Write-Host "Windows Update key does not exist"
 }
 
-# Install Windows .NET Features
+# Install .NET Framework 3.5 (required by Chocolatey)
 Install-WindowsFeature -Name NET-Framework-Features -IncludeAllSubFeature
+# Explicitly install all 4.7 sub features to include ASP.Net. 
+# As of  1/16/2019, WinServer 19 lists .Net 4.7 as NET-Framework-45-Features
 Install-WindowsFeature -Name NET-Framework-45-Features -IncludeAllSubFeature
-Install-WindowsFeature -Name BITS -IncludeAllSubFeature
-Install-WindowsFeature -Name DSC-Service
 
 Write-Host "Disable UAC"
 Disable-UserAccessControl
@@ -64,9 +64,12 @@ Write-Host "Disable IE ESC"
 Disable-InternetExplorerESC
 
 Write-Host "Setting local execution policy"
-Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope MachinePolicy  -ErrorAction Continue | Out-Null
+Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine  -ErrorAction Continue | Out-Null
 Get-ExecutionPolicy -List
 
+Write-Host "Enable long path behavior"
+# See https://docs.microsoft.com/en-us/windows/desktop/fileio/naming-a-file#maximum-path-length-limitation
+Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem' -Name 'LongPathsEnabled' -Value 1
 
 Write-Host "Install chocolatey"
 $chocoExePath = 'C:\ProgramData\Chocolatey\bin'
@@ -99,7 +102,6 @@ choco feature enable -n allowGlobalConfirmation
 # Install webpi
 choco install webpicmd -y
 
-
 # Expand disk size of OS drive
 
 New-Item -Path d:\ -Name cmds.txt -ItemType File -Force
@@ -118,9 +120,9 @@ wmic logicaldisk get size,freespace,caption
 # Adding description of the software to Markdown
 
 $Content = @"
-# VSTS Hosted VS2017 image
+# Windows 2019 with Visual Studio 2019 Enterprise image
 
-The following software is installed on machines in the VSTS **Hosted VS2017** pool.
+The following software is installed on machines in this image
 
 Components marked with **\*** have been upgraded since the previous version of the image.
 

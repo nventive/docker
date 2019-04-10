@@ -60,18 +60,19 @@ choco install ant -y -i
 choco install maven -y -i
 choco install gradle -y
 
+#not working in a container
 # Move maven variables to Machine. They may not be in the environment for this script so we need to read them from the registry.
-$userSid = (Get-WmiObject win32_useraccount -Filter "name = '$env:USERNAME' AND domain = '$env:USERDOMAIN'").SID
-$userEnvironmentKey = 'Registry::HKEY_USERS\' + $userSid + '\Environment'
+#$userSid = (Get-WmiObject win32_useraccount -Filter "name = '$env:USERNAME' AND domain = '$env:USERDOMAIN'").SID
+#$userEnvironmentKey = 'Registry::HKEY_USERS\' + $userSid + '\Environment'
 
-$m2_home = (Get-ItemProperty -Path $userEnvironmentKey -Name M2_HOME).M2_HOME
-$m2 = $m2_home + '\bin'
+#$m2_home = (Get-ItemProperty -Path $userEnvironmentKey -Name M2_HOME).M2_HOME
+#$m2 = $m2_home + '\bin'
 $maven_opts = '-Xms256m'
 
 $m2_repo = 'C:\ProgramData\m2'
 New-Item -Path $m2_repo -ItemType Directory -Force
 
-setx M2 $m2 /M
+#setx M2 $m2 /M
 setx M2_HOME $m2_home /M
 setx M2_REPO $m2_repo /M
 setx MAVEN_OPTS $maven_opts /M

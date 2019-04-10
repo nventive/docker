@@ -59,14 +59,17 @@ $WorkLoads = ' --includeOptional ' + `
              ' --add Microsoft.VisualStudio.Workload.Universal ' + `
              ' --add Microsoft.VisualStudio.Workload.NetCrossPlat ' + `
              ' --add Microsoft.VisualStudio.Workload.VisualStudioExtension ' + `
-             ' --add Component.Android.NDK.R15C ' + `
-             ' --add Component.Android.SDK23 ' + `
+             ' --add Microsoft.VisualStudio.Workload.Node ' + `
+             ' --add Microsoft.VisualStudio.Workload.NetCoreTools ' + `
+             ' --add Microsoft.VisualStudio.Workload.Azure ' + `
+             ' --add Component.Android.NDK.R16B ' + `
+             ' --add Component.Android.SDK27 ' + `
              ' --remove Microsoft.VisualStudio.Component.Windows10SDK.14393 ' + `
              ' --remove Microsoft.VisualStudio.Component.Windows10SDK.10586 ' + `
              ' --remove Microsoft.VisualStudio.Component.Windows10SDK.10240 '
 
 $Sku = 'Enterprise'
-$VSBootstrapperURL = 'https://aka.ms/vs/15/release/vs_enterprise.exe'
+$VSBootstrapperURL = 'https://aka.ms/vs/16/release/vs_enterprise.exe'
 
 $ErrorActionPreference = 'Stop'
 
@@ -91,32 +94,22 @@ Write-Host "Visual Studio version" $version "installed"
 
 # Adding description of the software to Markdown
 
-$SoftwareName = "Visual Studio 2017 Enterprise"
+$SoftwareName = "Visual Studio 2019 Enterprise"
 
 $Description = @"
 _Version:_ $version<br/>
 _Location:_ $InstallationPath
 
-The following workloads including required and recommended components are installed with Visual Studio 2017:
+The following workloads including required and recommended components are installed with Visual Studio 2019:
 
 * Universal Windows Platform development
 * .NET desktop development
-* Desktop development with C++
 * ASP.NET and web development
 * Azure development
 * Node.js development
-* Data storage and processing
-* Data science and analytical applications *
-* Game development with Unity *
-* Linux development with C++ *
-* Game development with C++ *
-* Mobile development with C++ *
-* Office/SharePoint development
 * Mobile development with .NET
 * .NET Core cross-platform development
 * Visual Studio extension development *
-* Python development *
-* Mobile development with JavaScript *
 
 In addition the following optional components are installed:
 

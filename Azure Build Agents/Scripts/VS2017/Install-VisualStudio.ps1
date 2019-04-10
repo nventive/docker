@@ -62,14 +62,14 @@ $WorkLoads = ' --includeOptional ' + `
              ' --add Microsoft.VisualStudio.Workload.Node ' + `
              ' --add Microsoft.VisualStudio.Workload.NetCoreTools ' + `
              ' --add Microsoft.VisualStudio.Workload.Azure ' + `
-             ' --add Component.Android.NDK.R16B ' + `
-             ' --add Component.Android.SDK27 ' + `
+             ' --add Component.Android.NDK.R15C ' + `
+             ' --add Component.Android.SDK23 ' + `
              ' --remove Microsoft.VisualStudio.Component.Windows10SDK.14393 ' + `
              ' --remove Microsoft.VisualStudio.Component.Windows10SDK.10586 ' + `
              ' --remove Microsoft.VisualStudio.Component.Windows10SDK.10240 '
 
 $Sku = 'Enterprise'
-$VSBootstrapperURL = 'https://aka.ms/vs/16/release/vs_enterprise.exe'
+$VSBootstrapperURL = 'https://aka.ms/vs/15/release/vs_enterprise.exe'
 
 $ErrorActionPreference = 'Stop'
 
@@ -94,7 +94,7 @@ Write-Host "Visual Studio version" $version "installed"
 
 # Adding description of the software to Markdown
 
-$SoftwareName = "Visual Studio 2019 Enterprise"
+$SoftwareName = "Visual Studio 2017 Enterprise"
 
 $Description = @"
 _Version:_ $version<br/>

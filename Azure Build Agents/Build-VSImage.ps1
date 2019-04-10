@@ -32,4 +32,6 @@ if(![String]::IsNullOrEmpty($Dockerfile)) {
     docker cp ${TemporaryContainerId}:'C:\InstalledSoftware.md' .\InstalledSoftware.md
     #Remove the temporary container
     docker rm $TemporaryContainerId
+    #Push the image to Docker Hub
+    docker push nventive/build-agent:$VisualStudioVersion
 }
