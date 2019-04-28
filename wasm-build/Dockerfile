@@ -6,6 +6,10 @@ RUN apt-get update
 # Install mono, msbuild and dependencies
 RUN apt-get -y install sudo unzip python mono-devel msbuild libc6 ninja-build
 
+# Setup for GitVersion 4.x 
+RUN sudo apt-get install -y libgit2-dev libgit2-26 && \
+ln -s /usr/lib/x86_64-linux-gnu/libgit2.so /lib/x86_64-linux-gnu/libgit2-15e1193.so
+
 # Install node and puppeteer dependencies
 RUN curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash - && \
 	sudo apt install -y nodejs gconf-service libasound2 libatk1.0-0 libc6 libcairo2 libcups2 \
