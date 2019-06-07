@@ -25,5 +25,7 @@ RUN git clone https://github.com/juj/emsdk.git && \
     ./emsdk install sdk-1.38.28-64bit && \
     ./emsdk install sdk-1.38.30-64bit && \
     ./emsdk install sdk-1.38.31-64bit && \
+    ./emsdk install sdk-1.38.34-64bit && \
     ./emsdk install latest && \
-    ./emsdk activate sdk-1.38.31-64bit
+    ./emsdk activate sdk-1.38.31-64bit \
+    sudo chmod -R 777 /emsdk
