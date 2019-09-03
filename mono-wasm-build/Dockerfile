@@ -6,4 +6,5 @@ RUN apt-get update
 # Install mono, msbuild and dependencies
 RUN apt-get -y install sudo unzip python msbuild libc6 ninja-build \
 	curl libtool automake autoconf g++ cmake gcc-multilib g++-multilib lld \
-	lib32ncurses5-dev nuget mono-devel ninja-build mingw-w64
+	lib32ncurses5-dev nuget mono-devel ninja-build mingw-w64 python3-pip \
+	python3-pip locales p7zip-full zip
