@@ -29,7 +29,7 @@ if(![String]::IsNullOrEmpty($Dockerfile)) {
     docker rmi $TemporaryImageTag
     #Stop the container to grad the markdown file inside of the image
     docker stop $TemporaryContainerId
-    docker cp ${TemporaryContainerId}:'C:\InstalledSoftware.md' .\InstalledSoftware.md
+    docker cp ${TemporaryContainerId}:'C:\InstalledSoftware.md' .\InstalledSoftware-vs$VisualStudioVersion.md
     #Remove the temporary container
     docker rm $TemporaryContainerId
     #Push the image to Docker Hub

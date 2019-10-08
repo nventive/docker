@@ -35,21 +35,21 @@ Install-Module -Name PowerShellGet -Force
 Set-PSRepository -InstallationPolicy Trusted -Name PSGallery
 
 
-Write-Host "Disable Antivirus"
-Set-MpPreference -DisableRealtimeMonitoring $true
+#Write-Host "Disable Antivirus"
+#Set-MpPreference -DisableRealtimeMonitoring $true
 
 # Disable Windows Update
-$AutoUpdatePath = "HKLM:SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU"
-If (Test-Path -Path $AutoUpdatePath) {
-    Set-ItemProperty -Path $AutoUpdatePath -Name NoAutoUpdate -Value 1
-    Write-Host "Disabled Windows Update"
-}
-else {
-    Write-Host "Windows Update key does not exist"
-}
+# $AutoUpdatePath = "HKLM:SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU"
+# If (Test-Path -Path $AutoUpdatePath) {
+#     Set-ItemProperty -Path $AutoUpdatePath -Name NoAutoUpdate -Value 1
+#     Write-Host "Disabled Windows Update"
+# }
+# else {
+#     Write-Host "Windows Update key does not exist"
+#}
 
 # Install .NET Framework 3.5 (required by Chocolatey)
-Install-WindowsFeature -Name NET-Framework-Features -IncludeAllSubFeature
+#Install-WindowsFeature -Name NET-Framework-Features -IncludeAllSubFeature
 # Explicitly install all 4.7 sub features to include ASP.Net. 
 # As of  1/16/2019, WinServer 19 lists .Net 4.7 as NET-Framework-45-Features
 Install-WindowsFeature -Name NET-Framework-45-Features -IncludeAllSubFeature
@@ -60,8 +60,8 @@ Disable-UserAccessControl
 Write-Host "Disable IE Welcome Screen"
 Disable-InternetExplorerWelcomeScreen
 
-Write-Host "Disable IE ESC"
-Disable-InternetExplorerESC
+#Write-Host "Disable IE ESC"
+#Disable-InternetExplorerESC
 
 Write-Host "Setting local execution policy"
 Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine  -ErrorAction Continue | Out-Null
@@ -104,11 +104,11 @@ choco install webpicmd -y
 
 # Expand disk size of OS drive
 
-New-Item -Path d:\ -Name cmds.txt -ItemType File -Force
+New-Item -Path C:\ -Name cmds.txt -ItemType File -Force
 
-Add-Content -Path d:\cmds.txt "SELECT VOLUME=C`r`nEXTEND"
+Add-Content -Path C:\cmds.txt "SELECT VOLUME=C`r`nEXTEND"
 
-$expandResult = (diskpart /s 'd:\cmds.txt')
+$expandResult = (diskpart /s 'C:\cmds.txt')
 
 Write-Host $expandResult
 

@@ -100,25 +100,16 @@ $Description = @"
 _Version:_ $version<br/>
 _Location:_ $InstallationPath
 
-The following workloads including required and recommended components are installed with Visual Studio 2017:
-
-* Universal Windows Platform development
-* .NET desktop development
-* ASP.NET and web development
-* Azure development
-* Node.js development
-* Mobile development with .NET
-* .NET Core cross-platform development
-* Visual Studio extension development *
-
-In addition the following optional components are installed:
+The following workloads and components are installed with Visual Studio 2017:
 
 "@
 
 Add-SoftwareDetailsToMarkdown -SoftwareName $SoftwareName -DescriptionMarkdown $Description
 
+$InstalledWorkloads = Get-ChildItem -Path C:\ProgramData\Microsoft\VisualStudio\Packages -Filter '*,version=*' | Sort-Object -Property Name | foreach {$_.Name}
+
 # Adding explicitly added Workloads details to markdown by parsing $Workloads
-Add-ContentToMarkdown -Content $($WorkLoads.Split('--') | % { if( ($_.Split(" "))[0] -like "add") { "* " +($_.Split(" "))[1] }  } )
+Add-ContentToMarkdown -Content $InstalledWorkloads
 
 
 

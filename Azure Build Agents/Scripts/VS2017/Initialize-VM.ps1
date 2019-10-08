@@ -39,14 +39,14 @@ Set-PSRepository -InstallationPolicy Trusted -Name PSGallery
 #Set-MpPreference -DisableRealtimeMonitoring $true
 
 # Disable Windows Update
-$AutoUpdatePath = "HKLM:SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU"
-If (Test-Path -Path $AutoUpdatePath) {
-    Set-ItemProperty -Path $AutoUpdatePath -Name NoAutoUpdate -Value 1
-    Write-Host "Disabled Windows Update"
-}
-else {
-    Write-Host "Windows Update key does not exist"
-}
+# $AutoUpdatePath = "HKLM:SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU"
+# If (Test-Path -Path $AutoUpdatePath) {
+#     Set-ItemProperty -Path $AutoUpdatePath -Name NoAutoUpdate -Value 1
+#     Write-Host "Disabled Windows Update"
+# }
+# else {
+#     Write-Host "Windows Update key does not exist"
+# }
 
 # Install Windows .NET Features
 #Not working on Windows Server Core 1809
@@ -124,7 +124,7 @@ wmic logicaldisk get size,freespace,caption
 # Adding description of the software to Markdown
 
 $Content = @"
-# Windows 2019 with Visual Studio 2019 Enterprise image
+# Windows 2019 with Visual Studio 2017 Enterprise image
 
 The following software is installed on machines in this image
 
