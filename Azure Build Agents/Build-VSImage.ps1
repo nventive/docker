@@ -1,5 +1,6 @@
 param (
- [int][Parameter(Mandatory)]$MajorVersion
+ [int][Parameter(Mandatory)]$MajorVersion,
+ [switch]$PushImage = $false
 )
 $SupportedVersions = 15,16
 
@@ -18,7 +19,7 @@ if($MajorVersion -eq 15) {
 
 if(![String]::IsNullOrEmpty($Dockerfile)) {
     $TemporaryImageTag = New-Guid
-    docker build -t $TemporaryImageTag -m 4G -f $Dockerfile . 
+    docker build -t $TemporaryImageTag -m 4G -f $Dockerfile . | Tee-Object -FilePath Docker-$TemporaryImageTag.log
     #Fire up a new container with the newly built image
     $TemporaryContainerId = docker run -m 2G -dt $TemporaryImageTag
     #Retrieve the version of VS
@@ -32,6 +33,9 @@ if(![String]::IsNullOrEmpty($Dockerfile)) {
     docker cp ${TemporaryContainerId}:'C:\InstalledSoftware.md' .\InstalledSoftware-vs$VisualStudioVersion.md
     #Remove the temporary container
     docker rm $TemporaryContainerId
-    #Push the image to Docker Hub
-    docker push nventive/build-agent:vs$VisualStudioVersion
+
+    if($PushImage){
+        #Push the image to Docker Hub
+        docker push nventive/build-agent:vs$VisualStudioVersion
+    }
 }
