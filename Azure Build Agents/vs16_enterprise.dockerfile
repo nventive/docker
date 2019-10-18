@@ -3,7 +3,7 @@
 # Made thanks to the instructions found here https://docs.microsoft.com/en-us/visualstudio/install/build-tools-container?view=vs-2019
 
 # Use the latest Windows Server Core 1809 image.
-FROM mcr.microsoft.com/windows/servercore:1809
+FROM mcr.microsoft.com/dotnet/framework/runtime:4.8-windowsservercore-ltsc2019
 
 # Copy configuration scripts.
 COPY [ "ImageHelpers", "C:/Program Files/WindowsPowerShell/Modules/ImageHelpers/"]

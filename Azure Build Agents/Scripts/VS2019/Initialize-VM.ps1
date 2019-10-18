@@ -39,14 +39,14 @@ Set-PSRepository -InstallationPolicy Trusted -Name PSGallery
 #Set-MpPreference -DisableRealtimeMonitoring $true
 
 # Disable Windows Update
-# $AutoUpdatePath = "HKLM:SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU"
-# If (Test-Path -Path $AutoUpdatePath) {
-#     Set-ItemProperty -Path $AutoUpdatePath -Name NoAutoUpdate -Value 1
-#     Write-Host "Disabled Windows Update"
-# }
-# else {
-#     Write-Host "Windows Update key does not exist"
-#}
+$AutoUpdatePath = "HKLM:SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU"
+If (Test-Path -Path $AutoUpdatePath) {
+    Set-ItemProperty -Path $AutoUpdatePath -Name NoAutoUpdate -Value 1
+    Write-Host "Disabled Windows Update"
+}
+else {
+    Write-Host "Windows Update key does not exist"
+}
 
 # Install .NET Framework 3.5 (required by Chocolatey)
 #Install-WindowsFeature -Name NET-Framework-Features -IncludeAllSubFeature
