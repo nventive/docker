@@ -15,7 +15,7 @@ Build-VSImage.ps1 -MajorVersion 15
 # Visual Studio 2019
 Build-VSImage.ps1 -MajorVersion 16
 ```
-This script will build the image for the corresponding version of Visual Studio, log all the output in a Docker-{guid}.log file, and tag the image with the corresponding version of VS (only `Major.Minor.Patch`; ie. `vs16.3.5`).
+This script will build the image for the corresponding version of Visual Studio, log all the output in a Docker-{guid}.log file, tag the image with the corresponding version of VS (only `Major.Minor.Patch`; ie. `vs16.3.5`) and generate a Markdown file summarizing what has been installed on the image.
 
 Additional options are available in this script:
 - `PushImage`: indicates whether to attempt to push the image; must be used with `DockerTagPrefix`
