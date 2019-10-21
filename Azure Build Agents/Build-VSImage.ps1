@@ -1,6 +1,8 @@
+
 param (
  [int][Parameter(Mandatory)]$MajorVersion,
- [switch]$PushImage = $false
+ [switch]$PushImage = $false,
+ [string]$DockerTagPrefix = ""
 )
 $SupportedVersions = 15,16
 
@@ -19,23 +21,36 @@ if($MajorVersion -eq 15) {
 
 if(![String]::IsNullOrEmpty($Dockerfile)) {
     $TemporaryImageTag = New-Guid
+    $ImageTag = $TemporaryImageTag
+
+    #Build the image and log the output to a file
     docker build -t $TemporaryImageTag -m 4G -f $Dockerfile . | Tee-Object -FilePath Docker-$TemporaryImageTag.log
+
     #Fire up a new container with the newly built image
     $TemporaryContainerId = docker run -m 2G -dt $TemporaryImageTag
+
     #Retrieve the version of VS
     $VisualStudioVersion = docker exec $TemporaryContainerId powershell -NoLogo "(Get-ChildItem Env:VisualStudio_Version).Value"
-    #Tag the image
-    docker tag $TemporaryImageTag nventive/build-agent:vs$VisualStudioVersion
-    #Remove the temporary tag
-    docker rmi $TemporaryImageTag
+
+    if(![string]::IsNullOrEmpty($VisualStudioVersion)) {
+        $ImageTag = vs$VisualStudioVersion;
+        #Tag the image
+        docker tag $TemporaryImageTag $ImageTag
+        #Remove the temporary tag
+        docker rmi $TemporaryImageTag
+    }
+
     #Stop the container to grad the markdown file inside of the image
     docker stop $TemporaryContainerId
-    docker cp ${TemporaryContainerId}:'C:\InstalledSoftware.md' .\InstalledSoftware-vs$VisualStudioVersion.md
+    docker cp ${TemporaryContainerId}:'C:\InstalledSoftware.md' .\InstalledSoftware-$ImageTag.md
+
     #Remove the temporary container
     docker rm $TemporaryContainerId
 
-    if($PushImage){
+    if($PushImage -And ![string]::IsNullOrWhiteSpace($DockerTagPrefix)) {
+        #Tag the image
+        docker tag $ImageTag '$DockerTagPrefix:$ImageTag'
         #Push the image to Docker Hub
-        docker push nventive/build-agent:vs$VisualStudioVersion
+        docker push '$DockerTagPrefix:$ImageTag'
     }
 }
