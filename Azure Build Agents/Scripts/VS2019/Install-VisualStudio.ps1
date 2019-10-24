@@ -72,12 +72,18 @@ $WorkLoads = ' --includeOptional ' + `
              ' --add Microsoft.VisualStudio.Workload.NetCrossPlat ' + `
              ' --add Microsoft.VisualStudio.Workload.Node ' + `
              ' --add Microsoft.VisualStudio.Workload.Universal ' + `
-             ' --add Microsoft.VisualStudio.Workload.VisualStudioExtension '
+             ' --add Microsoft.VisualStudio.Workload.VisualStudioExtension ' + `
+             ' --add Microsoft.Net.Core.Component.SDK.2.1' + `
+             ' --add Microsoft.Net.Core.Component.SDK.2.2'
 
 
 #$ReleaseInPath = 'Enterprise'
 $Sku = 'Enterprise'
 $VSBootstrapperURL = 'https://aka.ms/vs/16/release/vs_Enterprise.exe'
+
+if($env:PREVIEW) {
+  $VSBootstrapperURL = 'https://aka.ms/vs/16/pre/vs_Enterprise.exe'
+}
 
 $ErrorActionPreference = 'Stop'
 

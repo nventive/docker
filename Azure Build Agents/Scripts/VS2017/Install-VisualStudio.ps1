@@ -71,6 +71,10 @@ $WorkLoads = ' --includeOptional ' + `
 $Sku = 'Enterprise'
 $VSBootstrapperURL = 'https://aka.ms/vs/15/release/vs_enterprise.exe'
 
+if($env:PREVIEW) {
+  $VSBootstrapperURL = 'https://aka.ms/vs/15/pre/vs_Enterprise.exe'
+}
+
 $ErrorActionPreference = 'Stop'
 
 # Install VS

@@ -33,7 +33,7 @@ if(![String]::IsNullOrEmpty($Dockerfile)) {
     $VisualStudioVersion = docker exec $TemporaryContainerId powershell -NoLogo "(Get-ChildItem Env:VisualStudio_Version).Value"
 
     if(![string]::IsNullOrEmpty($VisualStudioVersion)) {
-        $ImageTag = vs$VisualStudioVersion;
+        $ImageTag = 'vs' + $VisualStudioVersion;
         #Tag the image
         docker tag $TemporaryImageTag $ImageTag
         #Remove the temporary tag
@@ -48,9 +48,10 @@ if(![String]::IsNullOrEmpty($Dockerfile)) {
     docker rm $TemporaryContainerId
 
     if($PushImage -And ![string]::IsNullOrWhiteSpace($DockerTagPrefix)) {
+        $FullTag = $DockerTagPrefix + ':' + $ImageTag;
         #Tag the image
-        docker tag $ImageTag '$DockerTagPrefix:$ImageTag'
+        docker tag $ImageTag $FullTag
         #Push the image to Docker Hub
-        docker push '$DockerTagPrefix:$ImageTag'
+        docker push $FullTag
     }
 }

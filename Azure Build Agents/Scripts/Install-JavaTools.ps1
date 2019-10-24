@@ -73,7 +73,7 @@ $m2_repo = 'C:\ProgramData\m2'
 New-Item -Path $m2_repo -ItemType Directory -Force
 
 #setx M2 $m2 /M
-setx M2_HOME $m2_home /M
+#setx M2_HOME $m2_home /M
 setx M2_REPO $m2_repo /M
 setx MAVEN_OPTS $maven_opts /M
 
