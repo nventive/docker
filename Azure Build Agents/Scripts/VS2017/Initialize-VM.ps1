@@ -126,9 +126,7 @@ wmic logicaldisk get size,freespace,caption
 $Content = @"
 # Windows 2019 with Visual Studio 2017 Enterprise image
 
-The following software is installed on machines in this image
-
-Components marked with **\*** have been upgraded since the previous version of the image.
+The following software is installed in this image
 
 "@
 
