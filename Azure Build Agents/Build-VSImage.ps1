@@ -1,9 +1,9 @@
-
 param (
  [int][Parameter(Mandatory)]$MajorVersion,
  [switch]$PushImage = $false,
  [string]$DockerTagPrefix = ""
 )
+$ErrorActionPreference = "Stop"
 $SupportedVersions = 15,16
 
 if(!($SupportedVersions -contains $MajorVersion)) {
@@ -24,10 +24,10 @@ if(![String]::IsNullOrEmpty($Dockerfile)) {
     $ImageTag = $TemporaryImageTag
 
     #Build the image and log the output to a file
-    docker build -t $TemporaryImageTag -m 4G -f $Dockerfile . | Tee-Object -FilePath Docker-$TemporaryImageTag.log
+    docker build -t $TemporaryImageTag -m 4G -f $Dockerfile . --isolation=hyperv | Tee-Object -FilePath Docker-$TemporaryImageTag.log
 
     #Fire up a new container with the newly built image
-    $TemporaryContainerId = docker run -m 2G -dt $TemporaryImageTag
+    $TemporaryContainerId = docker run -m 2G -dt --isolation=hyperv $TemporaryImageTag
 
     #Retrieve the version of VS
     $VisualStudioVersion = docker exec $TemporaryContainerId powershell -NoLogo "(Get-ChildItem Env:VisualStudio_Version).Value"
