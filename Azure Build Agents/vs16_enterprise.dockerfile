@@ -16,6 +16,7 @@ COPY Scripts\ C:\Scripts\
 RUN powershell -Command "C:\Scripts\VS2019\Initialize-VM.ps1"
 
 RUN powershell -Command "C:\Scripts\VS2019\Install-VisualStudio.ps1"
+RUN powershell -Command "C:\Scripts\Install-VSWhere.ps1"
 RUN powershell -Command "C:\Scripts\Install-AzureCli.ps1"
 
 #RUN powershell -Command "C:\Scripts\Download-ToolCache.ps1"
