@@ -1,8 +1,7 @@
 ################################################################################
 ##  File:  Validate-NodeLts.ps1
-##  Team:  CI-X
 ##  Desc:  Validate nodejs-lts and other common node tools.
-##  From:  https://github.com/Microsoft/azure-pipelines-image-generation/blob/master/images/win/scripts/Installers/Validate-NodeLts.ps1
+##  From:  https://raw.githubusercontent.com/actions/virtual-environments/win19/20200319.1/images/win/scripts/Installers/Validate-NodeLts.ps1
 ################################################################################
 
 if((Get-Command -Name 'node') -and (Get-Command -Name 'npm'))
@@ -16,16 +15,25 @@ else
     exit 1
 }
 
-if((Get-Command -Name 'gulp') -and (Get-Command -Name 'grunt') -and (Get-Command -Name 'bower') -and (Get-Command -Name 'cordova') -and (Get-Command -Name 'yarn'))
+if((Get-Command -Name 'gulp') -and (Get-Command -Name 'grunt') -and (Get-Command -Name 'cordova') -and (Get-Command -Name 'yarn'))
 {
     Write-Host "Gulp $(gulp -version) on path"
     Write-Host "Grunt $(grunt -version) on path"
-    Write-Host "Bower $(bower -version) on path"
     Write-Host "Yarn $(yarn -version) on path"
 }
 else
 {
-    Write-Host "One of Gulp, Grunt, Bower, Cordova, or Yarn is not on the path."
+    Write-Host "One of Gulp, Grunt, Cordova, or Yarn is not on the path."
+    exit 1
+}
+
+if(Get-Command -Name 'lerna')
+{
+    Write-Host "lerna $(lerna --version) on path"
+}
+else
+{
+    Write-Host "lerna is not on path"
     exit 1
 }
 
@@ -43,7 +51,6 @@ $npmVersion = $(npm -version)
 $SoftwareName = "Node.js"
 $GulpInfo = "Gulp $(gulp -version)"
 $GruntInfo = "Grunt $(grunt -version)"
-$BowerInfo = "Bower $(bower -version)"
 $YarnInfo = "Yarn $(yarn -version)"
 
 $Description = @"
@@ -53,10 +60,8 @@ _Environment:_
 * PATH: contains location of node.exe<br/>
 * $GulpInfo<br/>
 * $GruntInfo<br/>
-* $BowerInfo<br/>
 * $YarnInfo<br/>
 
-> Note: You can install and use another version of Node.js on Microsoft-hosted agent pools using the [Node tool installer](https://docs.microsoft.com/vsts/pipelines/tasks/tool/node-js) task.
 "@
 
 Add-SoftwareDetailsToMarkdown -SoftwareName $SoftwareName -DescriptionMarkdown $Description

@@ -1,26 +1,28 @@
 ################################################################################
 ##  File:  Install-JavaTools.ps1
-##  Team:  CI-X
 ##  Desc:  Install various JDKs and java tools
-##  From: https://raw.githubusercontent.com/Microsoft/azure-pipelines-image-generation/18a5015449355275c160f46d3861398efbd4de88/images/win/scripts/Installers/Install-JavaTools.ps1
+##  From:  https://raw.githubusercontent.com/actions/virtual-environments/win19/20200319.1/images/win/scripts/Installers/Install-JavaTools.ps1
 ################################################################################
 
 # Download the Azul Systems Zulu JDKs
 # See https://www.azul.com/downloads/azure-only/zulu/
-$azulJDK8Uri = 'https://repos.azul.com/azure-only/zulu/packages/zulu-8/8u192/zulu-8-azure-jdk_8.33.0.1-8.0.192-win_x64.zip'
-$azulJDK11Uri = 'https://repos.azul.com/azure-only/zulu/packages/zulu-11/11.0.1/zulu-11-azure-jdk_11.2.3-11.0.1-win_x64.zip'
+$azulJDK7Uri = 'https://repos.azul.com/azure-only/zulu/packages/zulu-7/7u232/zulu-7-azure-jdk_7.31.0.5-7.0.232-win_x64.zip'
+$azulJDK8Uri = 'https://repos.azul.com/azure-only/zulu/packages/zulu-8/8u222/zulu-8-azure-jdk_8.40.0.25-8.0.222-win_x64.zip'
+$azulJDK11Uri = 'https://repos.azul.com/azure-only/zulu/packages/zulu-11/11.0.4/zulu-11-azure-jdk_11.33.15-11.0.4-win_x64.zip'
 
 cd $env:TEMP
 
-[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+Invoke-WebRequest -UseBasicParsing -Uri $azulJDK7Uri -OutFile azulJDK7.zip
 Invoke-WebRequest -UseBasicParsing -Uri $azulJDK8Uri -OutFile azulJDK8.zip
 Invoke-WebRequest -UseBasicParsing -Uri $azulJDK11Uri -OutFile azulJDK11.zip
 
 # Expand the zips
+Expand-Archive -Path azulJDK7.zip -DestinationPath "C:\Program Files\Java\" -Force
 Expand-Archive -Path azulJDK8.zip -DestinationPath "C:\Program Files\Java\" -Force
 Expand-Archive -Path azulJDK11.zip -DestinationPath "C:\Program Files\Java\" -Force
 
 # Deleting zip folders
+Remove-Item -Recurse -Force azulJDK7.zip
 Remove-Item -Recurse -Force azulJDK8.zip
 Remove-Item -Recurse -Force azulJDK11.zip
 
@@ -39,6 +41,9 @@ foreach ($pathSegment in $pathSegments)
     }
 }
 
+$java7Installs = Get-ChildItem -Path 'C:\Program Files\Java' -Filter '*azure-jdk*7*' | Sort-Object -Property Name -Descending | Select-Object -First 1
+$latestJava7Install = $java7Installs.FullName;
+
 $java8Installs = Get-ChildItem -Path 'C:\Program Files\Java' -Filter '*azure-jdk*8*' | Sort-Object -Property Name -Descending | Select-Object -First 1
 $latestJava8Install = $java8Installs.FullName;
 
@@ -51,13 +56,14 @@ $newPath = $latestJava8Install + '\bin;' + $newPath
 Set-MachinePath -NewPath $newPath
 
 setx JAVA_HOME $latestJava8Install /M
+setx JAVA_HOME_7_X64 $latestJava7Install /M
 setx JAVA_HOME_8_X64 $latestJava8Install /M
 setx JAVA_HOME_11_X64 $latestJava11Install /M
 
 # Install Java tools
 # Force chocolatey to ignore dependencies on Ant and Maven or else they will download the Oracle JDK
 choco install ant -y -i
-choco install maven -y -i
+choco install maven -y -i --version=3.6.3
 choco install gradle -y
 
 #not working in a container
