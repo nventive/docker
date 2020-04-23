@@ -1,9 +1,8 @@
 ################################################################################
 ##  File:  Install-NodeLts.ps1
-##  Team:  CI-X
 ##  Desc:  Install nodejs-lts and other common node tools.
 ##         Must run after python is configured
-##  From: https://github.com/Microsoft/azure-pipelines-image-generation/blob/master/images/win/scripts/Installers/Install-NodeLts.ps1
+##  From:  https://raw.githubusercontent.com/actions/virtual-environments/win19/20200319.1/images/win/scripts/Installers/Install-NodeLts.ps1
 ################################################################################
 
 Import-Module -Name ImageHelpers -Force
@@ -26,12 +25,12 @@ setx NPM_CONFIG_CACHE $CachePath /M
 $env:NPM_CONFIG_CACHE = $CachePath
 
 npm config set registry http://registry.npmjs.org/
-npm install -g npm
 
-npm install -g bower
 npm install -g cordova
 npm install -g grunt-cli
 npm install -g gulp-cli
 npm install -g parcel-bundler
 npm install -g --save-dev webpack webpack-cli
 npm install -g yarn
+npm install -g lerna
+npm install -g node-sass

@@ -1,10 +1,13 @@
 #Visual Studio
 if($env:PREVIEW) {
-    $fullVersion = & 'C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe' -property installationVersion -prerelease
-    $shortVersion = & 'C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe' -property catalog_productSemanticVersion -prerelease
+    $fullVersion = vswhere -property installationVersion -prerelease
+    $shortVersion = vswhere -property catalog_productSemanticVersion -prerelease
+    [Environment]::SetEnvironmentVariable("Path", $env:Path + ";" + $(vswhere -latest -prerelease -requires Microsoft.Component.MSBuild -find MSBuild\**\Bin\MSBuild.exe | select-object -first 1), [System.EnvironmentVariableTarget]::Machine)
+
 } else {
-    $fullVersion = & 'C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe' -property installationVersion
-    $shortVersion = & 'C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe' -property catalog_productSemanticVersion
+    $fullVersion = vswhere -property installationVersion
+    $shortVersion = vswhere -property catalog_productSemanticVersion
+    [Environment]::SetEnvironmentVariable("Path", $env:Path + ";" + $(vswhere -latest -requires Microsoft.Component.MSBuild -find MSBuild\**\Bin\MSBuild.exe | select-object -first 1), [System.EnvironmentVariableTarget]::Machine)
 }
 
 SETX VisualStudio_FullVersion $($fullVersion) /M

@@ -1,8 +1,7 @@
 ################################################################################
 ##  File:  Initialize-VM.ps1
-##  Team:  CI-Platform
 ##  Desc:  VM initialization script, machine level configuration
-##  From:  https://raw.githubusercontent.com/Microsoft/azure-pipelines-image-generation/master/images/win/scripts/Installers/Vs2019/Initialize-VM.ps1
+##  From:  https://raw.githubusercontent.com/actions/virtual-environments/win19/20200319.1/images/win/scripts/Installers/Windows2019/Initialize-VM.ps1
 ################################################################################
 
 function Disable-InternetExplorerESC {
@@ -10,7 +9,13 @@ function Disable-InternetExplorerESC {
     $UserKey = "HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components\{A509B1A8-37EF-4b3f-8CFC-4F3A74704073}"
     Set-ItemProperty -Path $AdminKey -Name "IsInstalled" -Value 0 -Force
     Set-ItemProperty -Path $UserKey -Name "IsInstalled" -Value 0 -Force
-    Stop-Process -Name Explorer -Force -ErrorAction Continue
+
+    $ieProcess = Get-Process -Name Explorer -ErrorAction SilentlyContinue
+
+    if ($ieProcess){
+        Stop-Process -Name Explorer -Force -ErrorAction Continue
+    }
+
     Write-Host "IE Enhanced Security Configuration (ESC) has been disabled."
 }
 
@@ -25,6 +30,8 @@ function Disable-UserAccessControl {
     Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name "ConsentPromptBehaviorAdmin" -Value 00000000 -Force
     Write-Host "User Access Control (UAC) has been disabled."
 }
+
+SETX ROOT_FOLDER "C:" /M
 
 Import-Module -Name ImageHelpers -Force
 
@@ -50,7 +57,7 @@ else {
 
 # Install .NET Framework 3.5 (required by Chocolatey)
 #Install-WindowsFeature -Name NET-Framework-Features -IncludeAllSubFeature
-# Explicitly install all 4.7 sub features to include ASP.Net. 
+# Explicitly install all 4.7 sub features to include ASP.Net.
 # As of  1/16/2019, WinServer 19 lists .Net 4.7 as NET-Framework-45-Features
 Install-WindowsFeature -Name NET-Framework-45-Features -IncludeAllSubFeature
 
@@ -94,6 +101,7 @@ else {
 }
 
 # Run the installer
+[Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor "Tls12"
 Invoke-Expression ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))
 
 # Turn off confirmation
@@ -120,9 +128,11 @@ wmic logicaldisk get size,freespace,caption
 # Adding description of the software to Markdown
 
 $Content = @"
-# Windows 2019 with Visual Studio 2019 Enterprise image
+# Windows Server 2019
 
-The following software is installed in this image
+The following software is installed on machines with the $env:ImageVersion update.
+
+Components marked with **\*** have been upgraded since the previous version of the image.
 
 "@
 

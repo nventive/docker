@@ -1,35 +1,8 @@
 ################################################################################
 ##  File:  Update-AndroidSDK.ps1
-##  Team:  CI-X
 ##  Desc:  Install and update Android SDK and tools
-##  From:  https://raw.githubusercontent.com/microsoft/azure-pipelines-image-generation/36e1e5ede5fc22467b5283947ce7d8cc9e1910b5/images/win/scripts/Installers/Update-AndroidSDK.ps1
+##  From:  https://raw.githubusercontent.com/actions/virtual-environments/win19/20200319.1/images/win/scripts/Installers/Update-AndroidSDK.ps1
 ################################################################################
-
-function Add-ContentToMarkdown {
-    [CmdletBinding()]
-    param(
-        $Content = ""
-    )
-
-    Add-Content 'C:\InstalledSoftware.md' $Content
-}
-
-
-function Add-SoftwareDetailsToMarkdown {
-    [CmdletBinding()]
-    param(
-        $SoftwareName = "",
-        $DescriptionMarkdown = ""
-    )
-
-$Content = @"
-
-## $SoftwareName
-
-$DescriptionMarkdown
-"@
-   Add-ContentToMarkdown -Content $Content
-}
 
 # Download the latest command line tools so that we can accept all of the licenses.
 # See https://developer.android.com/studio/#command-tools
@@ -37,8 +10,6 @@ Invoke-WebRequest -UseBasicParsing -Uri "https://dl.google.com/android/repositor
 
 # Don't replace the one that VS installs as it seems to break things.
 Expand-Archive -Path android-sdk-tools.zip -DestinationPath android-sdk -Force
-
-Remove-Item -Path android-sdk-tools.zip
 
 $sdk = Get-Item -Path .\android-sdk
 
@@ -58,8 +29,8 @@ $sdk = Get-Item -Path .\android-sdk
 $base64Content = "UEsDBBQAAAAAAKJeN06amkPzKgAAACoAAAAhAAAAbGljZW5zZXMvYW5kcm9pZC1nb29nbGV0di1saWNlbnNlDQpmYzk0NmU4ZjIzMWYzZTMxNTliZjBiN2M2NTVjOTI0Y2IyZTM4MzMwUEsDBBQAAAAIAKBrN05E+YSqQwAAAFQAAAAcAAAAbGljZW5zZXMvYW5kcm9pZC1zZGstbGljZW5zZQXByREAIQgEwP9WmYsjhxgOKJN/CNs9vmdOQ2zdRw2dxQnWjqQ/3oIgXQM9vqUiwkiX8ljWea4ZlCF3xTo1pz6w+wdQSwMEFAAAAAAAxV43TpECY7AqAAAAKgAAACQAAABsaWNlbnNlcy9hbmRyb2lkLXNkay1wcmV2aWV3LWxpY2Vuc2UNCjUwNDY2N2Y0YzBkZTdhZjFhMDZkZTlmNGIxNzI3Yjg0MzUxZjI5MTBQSwMEFAAAAAAAzF43TpOr0CgqAAAAKgAAABsAAABsaWNlbnNlcy9nb29nbGUtZ2RrLWxpY2Vuc2UNCjMzYjZhMmI2NDYwN2YxMWI3NTlmMzIwZWY5ZGZmNGFlNWM0N2Q5N2FQSwMEFAAAAAAAz143TqxN4xEqAAAAKgAAACQAAABsaWNlbnNlcy9pbnRlbC1hbmRyb2lkLWV4dHJhLWxpY2Vuc2UNCmQ5NzVmNzUxNjk4YTc3YjY2MmYxMjU0ZGRiZWVkMzkwMWU5NzZmNWFQSwMEFAAAAAAA0l43Tu2ee/8qAAAAKgAAACYAAABsaWNlbnNlcy9taXBzLWFuZHJvaWQtc3lzaW1hZ2UtbGljZW5zZQ0KNjNkNzAzZjU2OTJmZDg5MWQ1YWNhY2ZiZDhlMDlmNDBmYzk3NjEwNVBLAQIUABQAAAAAAKJeN06amkPzKgAAACoAAAAhAAAAAAAAAAEAIAAAAAAAAABsaWNlbnNlcy9hbmRyb2lkLWdvb2dsZXR2LWxpY2Vuc2VQSwECFAAUAAAACACgazdORPmEqkMAAABUAAAAHAAAAAAAAAABACAAAABpAAAAbGljZW5zZXMvYW5kcm9pZC1zZGstbGljZW5zZVBLAQIUABQAAAAAAMVeN06RAmOwKgAAACoAAAAkAAAAAAAAAAEAIAAAAOYAAABsaWNlbnNlcy9hbmRyb2lkLXNkay1wcmV2aWV3LWxpY2Vuc2VQSwECFAAUAAAAAADMXjdOk6vQKCoAAAAqAAAAGwAAAAAAAAABACAAAABSAQAAbGljZW5zZXMvZ29vZ2xlLWdkay1saWNlbnNlUEsBAhQAFAAAAAAAz143TqxN4xEqAAAAKgAAACQAAAAAAAAAAQAgAAAAtQEAAGxpY2Vuc2VzL2ludGVsLWFuZHJvaWQtZXh0cmEtbGljZW5zZVBLAQIUABQAAAAAANJeN07tnnv/KgAAACoAAAAmAAAAAAAAAAEAIAAAACECAABsaWNlbnNlcy9taXBzLWFuZHJvaWQtc3lzaW1hZ2UtbGljZW5zZVBLBQYAAAAABgAGANoBAACPAgAAAAA="
 $content = [System.Convert]::FromBase64String($base64Content)
 Set-Content -Path .\android-sdk-licenses.zip -Value $content -Encoding Byte
-Expand-Archive -Path .\android-sdk-licenses.zip -DestinationPath 'C:\Android\android-sdk\' -Force
-Remove-Item -Path .\android-sdk-licenses.zip
+Expand-Archive -Path .\android-sdk-licenses.zip -DestinationPath 'C:\Android\android-sdk' -Force
+
 
 # run the updates.
 # keep newer versions in descending order
@@ -91,13 +62,7 @@ Push-Location -Path $sdk.FullName
     "platforms;android-29" `
     "platforms;android-28" `
     "platforms;android-27" `
-    "platforms;android-26" `
-    "platforms;android-25" `
-    "platforms;android-24" `
-    "platforms;android-23" `
-    "platforms;android-22" `
-    "platforms;android-21" `
-    "platforms;android-19" `
+    "build-tools;29.0.3" `
     "build-tools;29.0.2" `
     "build-tools;29.0.0" `
     "build-tools;28.0.3" `
@@ -108,25 +73,6 @@ Push-Location -Path $sdk.FullName
     "build-tools;27.0.2" `
     "build-tools;27.0.1" `
     "build-tools;27.0.0" `
-    "build-tools;26.0.3" `
-    "build-tools;26.0.2" `
-    "build-tools;26.0.1" `
-    "build-tools;26.0.0" `
-    "build-tools;25.0.3" `
-    "build-tools;25.0.2" `
-    "build-tools;25.0.1" `
-    "build-tools;25.0.0" `
-    "build-tools;24.0.3" `
-    "build-tools;24.0.2" `
-    "build-tools;24.0.1" `
-    "build-tools;24.0.0" `
-    "build-tools;23.0.3" `
-    "build-tools;23.0.2" `
-    "build-tools;23.0.1" `
-    "build-tools;22.0.1" `
-    "build-tools;21.1.2" `
-    "build-tools;20.0.0" `
-    "build-tools;19.1.0" `
     "extras;android;m2repository" `
     "extras;google;m2repository" `
     "extras;google;google_play_services" `
@@ -139,6 +85,7 @@ Push-Location -Path $sdk.FullName
     "add-ons;addon-google_apis-google-22" `
     "add-ons;addon-google_apis-google-21" `
     "cmake;3.6.4111459" `
+    "cmake;3.10.2.4988404" `
     "patcher;v4" `
     "ndk-bundle"
 

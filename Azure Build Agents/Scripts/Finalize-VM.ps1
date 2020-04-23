@@ -1,8 +1,7 @@
 ################################################################################
 ##  File:  Finalize-VM.ps1
-##  Team:  CI-Platform
 ##  Desc:  Clean up folders temp folders after installs to save space
-##  From:  https://github.com/Microsoft/azure-pipelines-image-generation/blob/master/images/win/scripts/Installers/Finalize-VM.ps1
+##  From:  https://raw.githubusercontent.com/actions/virtual-environments/win19/20200319.1/images/win/scripts/Installers/Finalize-VM.ps1
 ################################################################################
 
 Write-Host "Cleanup WinSxS"
@@ -16,7 +15,6 @@ Write-Host "Clean up various directories"
     "$env:windir\\logs",
     "$env:windir\\winsxs\\manifestcache",
     "$env:windir\\Temp",
-    "$env:windir\\Installer",
     "$env:TEMP"
 ) | ForEach-Object {
     if (Test-Path $_) {

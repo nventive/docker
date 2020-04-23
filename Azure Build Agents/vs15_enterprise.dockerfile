@@ -15,16 +15,17 @@ RUN powershell -Command "C:\Scripts\VS2017\Initialize-VM.ps1"
 RUN powershell -Command "C:\Scripts\VS2017\Install-VisualStudio.ps1"
 RUN powershell -Command "C:\Scripts\Install-AzureCli.ps1"
 
-RUN powershell -Command "C:\Scripts\Download-ToolCache.ps1"
+#RUN powershell -Command "C:\Scripts\Download-ToolCache.ps1"
 
 RUN powershell -Command "C:\Scripts\VS2017\Install-Python.ps1"
+RUN powershell -Command "C:\Scripts\Install-VSWhere.ps1"
 RUN powershell -Command "C:\Scripts\Install-Git.ps1"
 RUN powershell -Command "C:\Scripts\Install-NodeLts.ps1"
 RUN powershell -Command "C:\Scripts\Install-JavaTools.ps1"
 
 RUN powershell -Command "C:\Scripts\Update-AndroidSDK.ps1"
 
-RUN powershell -Command "C:\Scripts\Validate-ToolCache.ps1"
+#RUN powershell -Command "C:\Scripts\Validate-ToolCache.ps1"
 RUN powershell -Command "C:\Scripts\Validate-Python.ps1"
 RUN powershell -Command "C:\Scripts\Validate-Git.ps1"
 RUN powershell -Command "C:\Scripts\Validate-NodeLts.ps1"

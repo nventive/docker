@@ -1,8 +1,7 @@
 ################################################################################
 ##  File:  Validate-JavaTools.ps1
-##  Team:  CI-X
 ##  Desc:  Validate various JDKs and java tools
-##  From:  https://github.com/Microsoft/azure-pipelines-image-generation/blob/master/images/win/scripts/Installers/Validate-JavaTools.ps1
+##  From:  https://raw.githubusercontent.com/actions/virtual-environments/win19/20200319.1/images/win/scripts/Installers/Validate-JavaTools.ps1
 ################################################################################
 
 if((Get-Command -Name 'java') -and (Get-Command -Name 'mvn') -and (Get-Command -Name 'ant') -and (Get-Command -Name 'gradle'))
@@ -22,6 +21,13 @@ else
 if( $( $(& $env:comspec "/s /c java -version 2>&1") | Out-String) -match  '^(?<vendor>.+) version "(?<version>.+)".*' )
 {
    $javaVersion = $Matches.version
+}
+
+$env:Path = $env:JAVA_HOME_7_X64 + "\bin;" + $env:Path
+
+if( $( $(& $env:comspec "/s /c java -version 2>&1") | Out-String) -match  '^(?<vendor>.+) version "(?<version>.+)".*' )
+{
+   $java7Version = $Matches.version
 }
 
 $env:Path = $env:JAVA_HOME_11_X64 + "\bin;" + $env:Path
@@ -51,11 +57,15 @@ if( $( $(gradle -version) | Out-String) -match  'Gradle (?<version>.*)' )
 $SoftwareName = "Java Development Kit"
 
 $Description = @"
-#### $javaVersion
+#### $javaVersion (default)
 
 _Environment:_
 * JAVA_HOME: location of JDK
 * PATH: contains bin folder of JDK
+
+#### $java7Version
+
+_Location:_ $env:JAVA_HOME_7_X64
 
 #### $java11Version
 
