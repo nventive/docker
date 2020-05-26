@@ -29,7 +29,7 @@ RUN powershell -Command "C:\Scripts\Update-AndroidSDK.ps1"
 
 #RUN powershell -Command "C:\Scripts\Validate-ToolCache.ps1"
 RUN powershell -Command "C:\Scripts\Validate-Git.ps1"
-RUN powershell -Command "C:\Scripts\Validate-NodeLts.ps1"
+#RUN powershell -Command "C:\Scripts\Validate-NodeLts.ps1"
 RUN powershell -Command "C:\Scripts\Validate-JavaTools.ps1"
 
 RUN powershell -Command "C:\Scripts\Set-Environment.ps1"

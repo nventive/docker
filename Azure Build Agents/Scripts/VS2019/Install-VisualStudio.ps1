@@ -66,6 +66,7 @@ Function InstallVS
 $InstallationPath = "C:\VisualStudio"
 
 $WorkLoads = ' --includeOptional ' + `
+             ' --includeRecommended ' + `
              ' --add Microsoft.VisualStudio.Workload.Azure ' + `
              ' --add Microsoft.VisualStudio.Workload.ManagedDesktop' + `
              ' --add Microsoft.VisualStudio.Workload.NetCoreTools' + `
@@ -73,6 +74,7 @@ $WorkLoads = ' --includeOptional ' + `
              ' --add Microsoft.VisualStudio.Workload.Node ' + `
              ' --add Microsoft.VisualStudio.Workload.Universal ' + `
              ' --add Microsoft.VisualStudio.Workload.VisualStudioExtension ' + `
+             ' --add Microsoft.VisualStudio.Workload.NetWeb ' + `
              ' --add Microsoft.Net.Core.Component.SDK.2.1' + `
              ' --add Microsoft.Net.Core.Component.SDK.2.2'
 
