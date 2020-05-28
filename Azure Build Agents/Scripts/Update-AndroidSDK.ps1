@@ -29,13 +29,13 @@ $sdk = Get-Item -Path .\android-sdk
 $base64Content = "UEsDBBQAAAAAAKJeN06amkPzKgAAACoAAAAhAAAAbGljZW5zZXMvYW5kcm9pZC1nb29nbGV0di1saWNlbnNlDQpmYzk0NmU4ZjIzMWYzZTMxNTliZjBiN2M2NTVjOTI0Y2IyZTM4MzMwUEsDBBQAAAAIAKBrN05E+YSqQwAAAFQAAAAcAAAAbGljZW5zZXMvYW5kcm9pZC1zZGstbGljZW5zZQXByREAIQgEwP9WmYsjhxgOKJN/CNs9vmdOQ2zdRw2dxQnWjqQ/3oIgXQM9vqUiwkiX8ljWea4ZlCF3xTo1pz6w+wdQSwMEFAAAAAAAxV43TpECY7AqAAAAKgAAACQAAABsaWNlbnNlcy9hbmRyb2lkLXNkay1wcmV2aWV3LWxpY2Vuc2UNCjUwNDY2N2Y0YzBkZTdhZjFhMDZkZTlmNGIxNzI3Yjg0MzUxZjI5MTBQSwMEFAAAAAAAzF43TpOr0CgqAAAAKgAAABsAAABsaWNlbnNlcy9nb29nbGUtZ2RrLWxpY2Vuc2UNCjMzYjZhMmI2NDYwN2YxMWI3NTlmMzIwZWY5ZGZmNGFlNWM0N2Q5N2FQSwMEFAAAAAAAz143TqxN4xEqAAAAKgAAACQAAABsaWNlbnNlcy9pbnRlbC1hbmRyb2lkLWV4dHJhLWxpY2Vuc2UNCmQ5NzVmNzUxNjk4YTc3YjY2MmYxMjU0ZGRiZWVkMzkwMWU5NzZmNWFQSwMEFAAAAAAA0l43Tu2ee/8qAAAAKgAAACYAAABsaWNlbnNlcy9taXBzLWFuZHJvaWQtc3lzaW1hZ2UtbGljZW5zZQ0KNjNkNzAzZjU2OTJmZDg5MWQ1YWNhY2ZiZDhlMDlmNDBmYzk3NjEwNVBLAQIUABQAAAAAAKJeN06amkPzKgAAACoAAAAhAAAAAAAAAAEAIAAAAAAAAABsaWNlbnNlcy9hbmRyb2lkLWdvb2dsZXR2LWxpY2Vuc2VQSwECFAAUAAAACACgazdORPmEqkMAAABUAAAAHAAAAAAAAAABACAAAABpAAAAbGljZW5zZXMvYW5kcm9pZC1zZGstbGljZW5zZVBLAQIUABQAAAAAAMVeN06RAmOwKgAAACoAAAAkAAAAAAAAAAEAIAAAAOYAAABsaWNlbnNlcy9hbmRyb2lkLXNkay1wcmV2aWV3LWxpY2Vuc2VQSwECFAAUAAAAAADMXjdOk6vQKCoAAAAqAAAAGwAAAAAAAAABACAAAABSAQAAbGljZW5zZXMvZ29vZ2xlLWdkay1saWNlbnNlUEsBAhQAFAAAAAAAz143TqxN4xEqAAAAKgAAACQAAAAAAAAAAQAgAAAAtQEAAGxpY2Vuc2VzL2ludGVsLWFuZHJvaWQtZXh0cmEtbGljZW5zZVBLAQIUABQAAAAAANJeN07tnnv/KgAAACoAAAAmAAAAAAAAAAEAIAAAACECAABsaWNlbnNlcy9taXBzLWFuZHJvaWQtc3lzaW1hZ2UtbGljZW5zZVBLBQYAAAAABgAGANoBAACPAgAAAAA="
 $content = [System.Convert]::FromBase64String($base64Content)
 Set-Content -Path .\android-sdk-licenses.zip -Value $content -Encoding Byte
-Expand-Archive -Path .\android-sdk-licenses.zip -DestinationPath 'C:\Android\android-sdk' -Force
+Expand-Archive -Path .\android-sdk-licenses.zip -DestinationPath 'C:\android-sdk' -Force
 
 
 # run the updates.
 # keep newer versions in descending order
 
-$sdk_root = "C:\Android\android-sdk"
+$sdk_root = "C:\android-sdk"
 
 # The NDK is installed by Visual Studio at this location:
 # $ndk_root = "C:\Microsoft\AndroidNDK64\"
@@ -93,7 +93,7 @@ Push-Location -Path $sdk.FullName
 Pop-Location
 
 # The NDK is installed by the SDK manager at this location
-$ndk_root = "C:\Android\android-sdk\ndk-bundle\"
+$ndk_root = "C:\android-sdk\ndk-bundle\"
 
 if(Test-Path $ndk_root){
      setx ANDROID_HOME $sdk_root /M
@@ -115,7 +115,7 @@ $Header = @"
 
 Add-ContentToMarkdown -Content $Header
 
-$BuildTools =(Get-ChildItem "C:\Android\android-sdk\build-tools\") `
+$BuildTools =(Get-ChildItem "C:\android-sdk\build-tools\") `
            | Where { $_.Name -match "[0-9].*" } `
            | Sort-Object -Descending `
            | % { "#### $($_.Name)`n`n_Location:_ $($_.FullName)`n" }
@@ -132,7 +132,7 @@ $Header = @"
 
 Add-ContentToMarkdown -Content $Header
 
-$SdkList =(Get-ChildItem "C:\Android\android-sdk\platforms\") | Sort-Object -Descending | %{ $_.FullName }
+$SdkList =(Get-ChildItem "C:\android-sdk\platforms\") | Sort-Object -Descending | %{ $_.FullName }
 
 foreach($sdk in $SdkList)
 {
