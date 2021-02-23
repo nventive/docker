@@ -48,11 +48,14 @@ if(![String]::IsNullOrEmpty($Dockerfile)) {
     #Remove the temporary container
     docker rm $TemporaryContainerId
 
-    if($PushImage -And ![string]::IsNullOrWhiteSpace($DockerTagPrefix)) {
+    if(![string]::IsNullOrWhiteSpace($DockerTagPrefix)) {
         $FullTag = $DockerTagPrefix + ':' + $ImageTag;
         #Tag the image
         docker tag $ImageTag $FullTag
-        #Push the image to Docker Hub
-        docker push $FullTag
+
+        if($PushImage) {
+            #Push the image to Docker Hub
+            docker push $FullTag
+        }
     }
 }

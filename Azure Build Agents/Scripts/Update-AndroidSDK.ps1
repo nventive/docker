@@ -59,8 +59,10 @@ Push-Location -Path $sdk.FullName
 
 & '.\tools\bin\sdkmanager.bat' --sdk_root=$sdk_root `
     "platform-tools" `
+    "platforms;android-30" `
     "platforms;android-29" `
     "platforms;android-28" `
+    "build-tools;30.0.3" `
     "build-tools;29.0.3" `
     "build-tools;28.0.3" `
     "extras;android;m2repository" `
