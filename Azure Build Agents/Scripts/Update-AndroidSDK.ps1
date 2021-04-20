@@ -79,7 +79,8 @@ Push-Location -Path $sdk.FullName
     "cmake;3.6.4111459" `
     "cmake;3.10.2.4988404" `
     "patcher;v4" `
-    "ndk-bundle"
+    "ndk-bundle" `
+    "ndk;21.3.6528147"
 
 Pop-Location
 
