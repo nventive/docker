@@ -1,23 +1,24 @@
 param (
  [int][Parameter(Mandatory)]$MajorVersion,
+ [string][Parameter(Mandatory)]$Edition,
  [switch]$PushImage = $false,
  [string]$DockerTagPrefix = ""
 )
 $ErrorActionPreference = "Stop"
 $SupportedVersions = 15,16
+$SupportedEditions = "Enterprise", "BuildTools"
 
 if(!($SupportedVersions -contains $MajorVersion)) {
     Write-Host "Version $MajorVersion of Visual Studio is currently not supported" 
     return
 }
 
-$Dockerfile = ""
-
-if($MajorVersion -eq 15) {
-    $Dockerfile = "vs15_enterprise.dockerfile"
-} elseif ($MajorVersion -eq 16) {
-    $Dockerfile = "vs16_enterprise.dockerfile"
+if(!($SupportedEditions -contains $Edition)) {
+    Write-Host "$Edition edition of Visual Studio is currently not supported" 
+    return
 }
+
+$Dockerfile = "vs$MajorVersion"+"_$Edition.dockerfile"
 
 if(![String]::IsNullOrEmpty($Dockerfile)) {
     $TemporaryImageTag = New-Guid
@@ -33,7 +34,7 @@ if(![String]::IsNullOrEmpty($Dockerfile)) {
     $VisualStudioVersion = docker exec $TemporaryContainerId powershell -NoLogo "(Get-ChildItem Env:VisualStudio_Version).Value"
 
     if(![string]::IsNullOrEmpty($VisualStudioVersion)) {
-        $ImageTag = 'vs' + $VisualStudioVersion;
+        $ImageTag = $VisualStudioVersion;
         #Tag the image
         docker tag $TemporaryImageTag $ImageTag
         #Remove the temporary tag
@@ -47,11 +48,14 @@ if(![String]::IsNullOrEmpty($Dockerfile)) {
     #Remove the temporary container
     docker rm $TemporaryContainerId
 
-    if($PushImage -And ![string]::IsNullOrWhiteSpace($DockerTagPrefix)) {
+    if(![string]::IsNullOrWhiteSpace($DockerTagPrefix)) {
         $FullTag = $DockerTagPrefix + ':' + $ImageTag;
         #Tag the image
         docker tag $ImageTag $FullTag
-        #Push the image to Docker Hub
-        docker push $FullTag
+
+        if($PushImage) {
+            #Push the image to Docker Hub
+            docker push $FullTag
+        }
     }
 }

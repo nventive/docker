@@ -6,10 +6,10 @@
 
 # Download the latest command line tools so that we can accept all of the licenses.
 # See https://developer.android.com/studio/#command-tools
-Invoke-WebRequest -UseBasicParsing -Uri "https://dl.google.com/android/repository/sdk-tools-windows-4333796.zip" -OutFile android-sdk-tools.zip
+Invoke-WebRequest -UseBasicParsing -Uri "https://dl.google.com/android/repository/sdk-tools-windows-4333796.zip" -OutFile $env:TEMP\android-sdk-tools.zip
 
 # Don't replace the one that VS installs as it seems to break things.
-Expand-Archive -Path android-sdk-tools.zip -DestinationPath android-sdk -Force
+Expand-Archive -Path $env:TEMP\android-sdk-tools.zip -DestinationPath android-sdk -Force
 
 $sdk = Get-Item -Path .\android-sdk
 
@@ -28,8 +28,8 @@ $sdk = Get-Item -Path .\android-sdk
 #     for($i=0; $i -lt 100; $i++) { $response += "y`n"}; $response | .\sdkmanager.bat --licenses
 $base64Content = "UEsDBBQAAAAAAKJeN06amkPzKgAAACoAAAAhAAAAbGljZW5zZXMvYW5kcm9pZC1nb29nbGV0di1saWNlbnNlDQpmYzk0NmU4ZjIzMWYzZTMxNTliZjBiN2M2NTVjOTI0Y2IyZTM4MzMwUEsDBBQAAAAIAKBrN05E+YSqQwAAAFQAAAAcAAAAbGljZW5zZXMvYW5kcm9pZC1zZGstbGljZW5zZQXByREAIQgEwP9WmYsjhxgOKJN/CNs9vmdOQ2zdRw2dxQnWjqQ/3oIgXQM9vqUiwkiX8ljWea4ZlCF3xTo1pz6w+wdQSwMEFAAAAAAAxV43TpECY7AqAAAAKgAAACQAAABsaWNlbnNlcy9hbmRyb2lkLXNkay1wcmV2aWV3LWxpY2Vuc2UNCjUwNDY2N2Y0YzBkZTdhZjFhMDZkZTlmNGIxNzI3Yjg0MzUxZjI5MTBQSwMEFAAAAAAAzF43TpOr0CgqAAAAKgAAABsAAABsaWNlbnNlcy9nb29nbGUtZ2RrLWxpY2Vuc2UNCjMzYjZhMmI2NDYwN2YxMWI3NTlmMzIwZWY5ZGZmNGFlNWM0N2Q5N2FQSwMEFAAAAAAAz143TqxN4xEqAAAAKgAAACQAAABsaWNlbnNlcy9pbnRlbC1hbmRyb2lkLWV4dHJhLWxpY2Vuc2UNCmQ5NzVmNzUxNjk4YTc3YjY2MmYxMjU0ZGRiZWVkMzkwMWU5NzZmNWFQSwMEFAAAAAAA0l43Tu2ee/8qAAAAKgAAACYAAABsaWNlbnNlcy9taXBzLWFuZHJvaWQtc3lzaW1hZ2UtbGljZW5zZQ0KNjNkNzAzZjU2OTJmZDg5MWQ1YWNhY2ZiZDhlMDlmNDBmYzk3NjEwNVBLAQIUABQAAAAAAKJeN06amkPzKgAAACoAAAAhAAAAAAAAAAEAIAAAAAAAAABsaWNlbnNlcy9hbmRyb2lkLWdvb2dsZXR2LWxpY2Vuc2VQSwECFAAUAAAACACgazdORPmEqkMAAABUAAAAHAAAAAAAAAABACAAAABpAAAAbGljZW5zZXMvYW5kcm9pZC1zZGstbGljZW5zZVBLAQIUABQAAAAAAMVeN06RAmOwKgAAACoAAAAkAAAAAAAAAAEAIAAAAOYAAABsaWNlbnNlcy9hbmRyb2lkLXNkay1wcmV2aWV3LWxpY2Vuc2VQSwECFAAUAAAAAADMXjdOk6vQKCoAAAAqAAAAGwAAAAAAAAABACAAAABSAQAAbGljZW5zZXMvZ29vZ2xlLWdkay1saWNlbnNlUEsBAhQAFAAAAAAAz143TqxN4xEqAAAAKgAAACQAAAAAAAAAAQAgAAAAtQEAAGxpY2Vuc2VzL2ludGVsLWFuZHJvaWQtZXh0cmEtbGljZW5zZVBLAQIUABQAAAAAANJeN07tnnv/KgAAACoAAAAmAAAAAAAAAAEAIAAAACECAABsaWNlbnNlcy9taXBzLWFuZHJvaWQtc3lzaW1hZ2UtbGljZW5zZVBLBQYAAAAABgAGANoBAACPAgAAAAA="
 $content = [System.Convert]::FromBase64String($base64Content)
-Set-Content -Path .\android-sdk-licenses.zip -Value $content -Encoding Byte
-Expand-Archive -Path .\android-sdk-licenses.zip -DestinationPath 'C:\android-sdk' -Force
+Set-Content -Path $env:TEMP\android-sdk-licenses.zip -Value $content -Encoding Byte
+Expand-Archive -Path $env:TEMP\android-sdk-licenses.zip -DestinationPath 'C:\android-sdk' -Force
 
 
 # run the updates.
@@ -59,21 +59,12 @@ Push-Location -Path $sdk.FullName
 
 & '.\tools\bin\sdkmanager.bat' --sdk_root=$sdk_root `
     "platform-tools" `
+    "platforms;android-30" `
     "platforms;android-29" `
     "platforms;android-28" `
-    "platforms;android-27" `
-    "platforms;android-26" `
+    "build-tools;30.0.3" `
     "build-tools;29.0.3" `
-    "build-tools;29.0.2" `
-    "build-tools;29.0.0" `
     "build-tools;28.0.3" `
-    "build-tools;28.0.2" `
-    "build-tools;28.0.1" `
-    "build-tools;28.0.0" `
-    "build-tools;27.0.3" `
-    "build-tools;27.0.2" `
-    "build-tools;27.0.1" `
-    "build-tools;27.0.0" `
     "extras;android;m2repository" `
     "extras;google;m2repository" `
     "extras;google;google_play_services" `
@@ -88,7 +79,8 @@ Push-Location -Path $sdk.FullName
     "cmake;3.6.4111459" `
     "cmake;3.10.2.4988404" `
     "patcher;v4" `
-    "ndk-bundle"
+    "ndk-bundle" `
+    "ndk;21.3.6528147"
 
 Pop-Location
 

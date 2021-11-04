@@ -65,26 +65,46 @@ Function InstallVS
 
 $InstallationPath = "C:\VisualStudio"
 
-$WorkLoads = ' --includeOptional ' + `
-             ' --includeRecommended ' + `
-             ' --add Microsoft.VisualStudio.Workload.Azure ' + `
-             ' --add Microsoft.VisualStudio.Workload.ManagedDesktop' + `
-             ' --add Microsoft.VisualStudio.Workload.NetCoreTools' + `
-             ' --add Microsoft.VisualStudio.Workload.NetCrossPlat ' + `
-             ' --add Microsoft.VisualStudio.Workload.Node ' + `
-             ' --add Microsoft.VisualStudio.Workload.Universal ' + `
-             ' --add Microsoft.VisualStudio.Workload.VisualStudioExtension ' + `
-             ' --add Microsoft.VisualStudio.Workload.NetWeb ' + `
-             ' --add Microsoft.Net.Core.Component.SDK.2.1' + `
-             ' --add Microsoft.Net.Core.Component.SDK.2.2'
+if($env:BUILD_TOOLS) {
+  $WorkLoads = ' --includeRecommended ' + `
+               ' --add Microsoft.VisualStudio.Workload.ManagedDesktopBuildTools' + `
+               ' --add Microsoft.VisualStudio.Workload.NetCoreBuildTools' + `
+               ' --add Microsoft.VisualStudio.Workload.XamarinBuildTools ' + `
+               ' --add Microsoft.VisualStudio.Workload.UniversalBuildTools '
+               
+  #$ReleaseInPath = 'BuildTools'
+  $Sku = 'BuildTools'
 
+  if($env:PREVIEW) {
+    $VSBootstrapperURL = 'https://aka.ms/vs/16/pre/vs_BuildTools.exe'
+  }
+  else {
+    $VSBootstrapperURL = 'https://aka.ms/vs/16/release/vs_BuildTools.exe'
+  }
+}
+else {    
+  $WorkLoads = ' --includeOptional ' + `
+               ' --includeRecommended ' + `
+               ' --add Microsoft.VisualStudio.Workload.Azure ' + `
+               ' --add Microsoft.VisualStudio.Workload.ManagedDesktop' + `
+               ' --add Microsoft.VisualStudio.Workload.NetCoreTools' + `
+               ' --add Microsoft.VisualStudio.Workload.NetCrossPlat ' + `
+               ' --add Microsoft.VisualStudio.Workload.Node ' + `
+               ' --add Microsoft.VisualStudio.Workload.Universal ' + `
+               ' --add Microsoft.VisualStudio.Workload.VisualStudioExtension ' + `
+               ' --add Microsoft.VisualStudio.Workload.NetWeb ' + `
+               ' --add Microsoft.Net.Core.Component.SDK.2.1' + `
+               ' --add Microsoft.Net.Core.Component.SDK.2.2'         
 
-#$ReleaseInPath = 'Enterprise'
-$Sku = 'Enterprise'
-$VSBootstrapperURL = 'https://aka.ms/vs/16/release/vs_Enterprise.exe'
+  #$ReleaseInPath = 'Enterprise'
+  $Sku = 'Enterprise'
 
-if($env:PREVIEW) {
-  $VSBootstrapperURL = 'https://aka.ms/vs/16/pre/vs_Enterprise.exe'
+  if($env:PREVIEW) {
+    $VSBootstrapperURL = 'https://aka.ms/vs/16/pre/vs_Enterprise.exe'
+  }
+  else {
+    $VSBootstrapperURL = 'https://aka.ms/vs/16/release/vs_Enterprise.exe'
+  }
 }
 
 $ErrorActionPreference = 'Stop'
