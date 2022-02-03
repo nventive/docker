@@ -6,7 +6,7 @@
 
 # Download the latest command line tools so that we can accept all of the licenses.
 # See https://developer.android.com/studio/#command-tools
-Invoke-WebRequest -UseBasicParsing -Uri "https://dl.google.com/android/repository/sdk-tools-windows-4333796.zip" -OutFile $env:TEMP\android-sdk-tools.zip
+Invoke-WebRequest -UseBasicParsing -Uri "https://dl.google.com/android/repository/commandlinetools-win-8092744_latest.zip" -OutFile $env:TEMP\android-sdk-tools.zip
 
 # Don't replace the one that VS installs as it seems to break things.
 Expand-Archive -Path $env:TEMP\android-sdk-tools.zip -DestinationPath android-sdk -Force
@@ -57,11 +57,13 @@ $sdk_root = "C:\android-sdk"
 
 Push-Location -Path $sdk.FullName
 
-& '.\tools\bin\sdkmanager.bat' --sdk_root=$sdk_root `
+& '.\cmdline-tools\bin\sdkmanager.bat' --sdk_root=$sdk_root `
     "platform-tools" `
+    "platforms;android-31" `
     "platforms;android-30" `
     "platforms;android-29" `
     "platforms;android-28" `
+    "build-tools;31.0.0" `
     "build-tools;30.0.3" `
     "build-tools;29.0.3" `
     "build-tools;28.0.3" `
