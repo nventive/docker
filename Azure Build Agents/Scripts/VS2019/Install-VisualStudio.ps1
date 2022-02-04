@@ -67,6 +67,7 @@ $InstallationPath = "C:\VisualStudio"
 
 if($env:BUILD_TOOLS) {
   $WorkLoads = ' --includeRecommended ' + `
+               ' --add Microsoft.Net.Component.4.7.2.TargetingPack' + `
                ' --add Microsoft.VisualStudio.Workload.ManagedDesktopBuildTools' + `
                ' --add Microsoft.VisualStudio.Workload.NetCoreBuildTools' + `
                ' --add Microsoft.VisualStudio.Workload.XamarinBuildTools ' + `
