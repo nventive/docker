@@ -47,6 +47,8 @@ Microsoft.Net.4.5.2.TargetingPack,version=4.5.51651.2
 Microsoft.Net.4.5.TargetingPack,version=4.5.50709.2
 Microsoft.Net.4.6.1.TargetingPack,version=4.6.1055.2
 Microsoft.Net.4.6.TargetingPack,version=4.6.81.2
+Microsoft.Net.4.7.2.TargetingPack,version=4.7.3062.2
+Microsoft.Net.4.7.2.TargetingPack.Resources,version=4.7.3062.2,language=en-US
 Microsoft.Net.4.8.SDK,version=4.8.3928.2
 Microsoft.Net.4.TargetingPack,version=4.0.30319.2
 Microsoft.Net.ClickOnceBootstrapper,version=4.8.4119.2
@@ -55,6 +57,7 @@ Microsoft.Net.Component.4.5.2.TargetingPack,version=16.0.28517.75
 Microsoft.Net.Component.4.5.TargetingPack,version=16.11.31605.320
 Microsoft.Net.Component.4.6.1.TargetingPack,version=16.0.28517.75
 Microsoft.Net.Component.4.6.TargetingPack,version=16.0.28517.75
+Microsoft.Net.Component.4.7.2.TargetingPack,version=16.10.31205.252
 Microsoft.Net.Component.4.8.SDK,version=16.4.29313.120
 Microsoft.Net.Component.4.TargetingPack,version=16.11.31605.320
 Microsoft.Net.ComponentGroup.TargetingPacks.Common,version=16.0.28516.191
