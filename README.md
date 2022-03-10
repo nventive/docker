@@ -14,6 +14,8 @@ To build an image, simply run the following command in the Azure Build Agents di
 Build-VSImage.ps1 -MajorVersion 15
 # Visual Studio 2019
 Build-VSImage.ps1 -MajorVersion 16
+# Visual Studio 2012
+Build-VSImage.ps1 -MajorVersion 17
 ```
 This script will build the image for the corresponding version of Visual Studio, log all the output in a Docker-{guid}.log file, tag the image with the corresponding version of VS (only `Major.Minor.Patch`; ie. `vs16.3.5`) and generate a Markdown file summarizing what has been installed on the image.
 
