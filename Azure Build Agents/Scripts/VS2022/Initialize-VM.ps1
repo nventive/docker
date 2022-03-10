@@ -128,7 +128,7 @@ wmic logicaldisk get size,freespace,caption
 # Adding description of the software to Markdown
 
 $Content = @"
-# Windows Server 2019
+# Windows Server 2022
 
 The following software is installed on machines with the $env:ImageVersion update.
 

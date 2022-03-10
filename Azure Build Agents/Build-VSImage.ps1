@@ -5,7 +5,7 @@ param (
  [string]$DockerTagPrefix = ""
 )
 $ErrorActionPreference = "Stop"
-$SupportedVersions = 15,16
+$SupportedVersions = 15,16,17
 $SupportedEditions = "Enterprise", "BuildTools"
 
 if(!($SupportedVersions -contains $MajorVersion)) {
