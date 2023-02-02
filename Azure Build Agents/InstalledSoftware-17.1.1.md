@@ -354,6 +354,14 @@ Xamarin.VisualStudio.Apple.Sdk,version=17.1.0.309
 
 ## Android SDK Build Tools
 
+#### 33.0.0
+
+_Location:_ C:\android-sdk\build-tools\33.0.0
+
+#### 32.0.0
+
+_Location:_ C:\android-sdk\build-tools\32.0.0
+
 #### 31.0.0
 
 _Location:_ C:\android-sdk\build-tools\31.0.0
@@ -372,6 +380,16 @@ _Location:_ C:\android-sdk\build-tools\28.0.3
 
 
 ## Android SDK Platforms
+
+
+#### 13 (API 33)
+
+_Location:_ C:\android-sdk\platforms\android-33
+
+
+#### 12 (API 32)
+
+_Location:_ C:\android-sdk\platforms\android-32
 
 #### 12 (API 31)
 
