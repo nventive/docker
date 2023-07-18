@@ -1,7 +1,7 @@
 ################################################################################
-##  File:  Install-VS2019.ps1
+##  File:  Install-VS2022.ps1
 ##  Team:  CI-Build
-##  Desc:  Install Visual Studio 2019
+##  Desc:  Install Visual Studio 2022
 ##  From: https://raw.githubusercontent.com/microsoft/azure-pipelines-image-generation/master/images/win/scripts/Installers/Vs2019/Install-VS2019.ps1
 ################################################################################
 $ErrorActionPreference = "Stop"
